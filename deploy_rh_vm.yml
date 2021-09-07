@@ -1,0 +1,36 @@
+ name: Create a Red Hat virtual machine on vcenter
+  gather_facts: false
+  tasks: 
+  - name: Deploying virtual machine "{{h_name}}"
+    vmware_guest:
+      hostname: 192.168.4.132
+      cluster: "NetApp-HCI-Cluster-01"
+      validate_certs: False
+      folder: Ansible
+      name: "{{h_name}}"
+      state: poweredon
+      guest_id: rhel7_64Guest
+      datacenter: NetApp-HCI-Datacenter
+      disk:
+      - size_gb: 20
+        type: thin
+        datastore: NetApp-HCI-Datastore-01
+      hardware:
+        memory_mb: 2048
+        num_cpus: 1
+        scsi: paravirtual
+      networks:
+      - name: Virtual_Machine_Network
+        ip: "{{h_ip}}"
+        netmask: "{{h_nm}}"
+        gateway: "{{h_gw}}"
+        dns_servers:
+        - "{{h_dns}}"
+        #device_type: vmxnet3
+      customization:
+        dns_servers:
+        - "{{h_dns}}"
+      template: RHEL-7.5-Template
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    register: deploy_vm
