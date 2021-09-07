@@ -1,7 +1,7 @@
 - name: Create a Red Hat virtual machine on vcenter
   gather_facts: false
   tasks: 
-  - name: Deploying virtual machine "{{h_name}}"
+  - name: Deploying virtual machine "{{ h_name }}"
     vmware_guest:
       hostname: 192.168.4.132
       cluster: "NetApp-HCI-Cluster-01"
